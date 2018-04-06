@@ -38,6 +38,7 @@
 		//}
 	%>
 </table>
+<a href="listPackages.jsp">List Packages for this User</a>
 <p><a href="UserHandler?action=insert">Add User</a></p>
 </body>
 </html>

@@ -13,6 +13,8 @@ import packages.Packages;
 
 
 public class PackageDao {
+	
+	
 
 	 private Connection conn;
 	 
@@ -20,12 +22,12 @@ public class PackageDao {
 	    	conn = ConnectionProvider.getConnection();
 	    }
 	 
-	 public List<Packages> getPackagesForCustomer(int customerId) {
+	 public List<Packages> getPackagesForCustomer(String userId) {
 	        List<Packages> packageList = new ArrayList<Packages>();
 	        try {
-	        	String sql = "SELECT Packages.PackageId, PkgName, PkgStartDate, PkgEndDate, PkgDesc, PkgBasePrice, BookingId, BookingDate, TravelerCount FROM Packages INNER JOIN Bookings ON Bookings.PackageId = Packages.PackageId Where CustomerId=?";
+	        	String sql = "SELECT p.PackageId, PkgName, PkgStartDate, PkgEndDate, PkgDesc, PkgBasePrice, BookingId, BookingDate, TravelerCount FROM Packages p INNER JOIN Bookings b ON b.PackageId = p.PackageId INNER JOIN Customers c ON c.CustomerId = b.CustomerId Where userid=?";
 	            PreparedStatement ps = conn.prepareStatement(sql);
-	            ps.setInt(1, customerId);
+	            ps.setString(1, userId);
 	            ResultSet rs = ps.executeQuery();
 	            while (rs.next()) {
 	                Packages pkgs = new Packages();

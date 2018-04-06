@@ -6,6 +6,7 @@
 <%@ page import="dao.PackageDao"%>
 <%@ page import="java.util.*"%>
 <%@ page import="dao.UserDao"%>
+<%@ page import="login.Login"%>
 
 <html>
 <head>
@@ -13,6 +14,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+Hello, User#: <%= session.getAttribute("id")%>
 <table border="1">
 	<tr>
 		<th>Id</th>
@@ -28,8 +31,10 @@
 	<tr>
 			<%
 			//int userId = Integer.parseInt(request.getParameter("userId"));
+			
+			
 			PackageDao pkg  = new PackageDao();
-			List<Packages> pkgs = pkg.getPackagesForCustomer(143);
+			List<Packages> pkgs = pkg.getPackagesForCustomer((String)session.getAttribute("id"));
 			for (Packages pk : pkgs) {
 		%>
 		

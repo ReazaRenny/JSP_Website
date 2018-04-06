@@ -38,11 +38,16 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
+		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver"); // Load the driver
 			Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/travelexperts", "root", ""); // log in to connection with path, username and password
 			PreparedStatement stmt = conn.prepareStatement("select password from Customers where userid=?");
-			stmt.setString(1, request.getParameter("userid"));
+			HttpSession session2 = request.getSession(true);
+			String id = request.getParameter( "userid" );
+			session2.setAttribute( "id", id );
+			stmt.setString(1, id);
+			
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) // 
 			{
@@ -50,9 +55,7 @@ public class Login extends HttpServlet {
 				{
 					
 					response.sendRedirect("listPackages.jsp");
-					HttpSession session = request.getSession();
-					int userId = (int)request.getAttribute("userId");
-					session.setAttribute("userId", userId);
+					
 				}
 				else 
 				{
@@ -85,6 +88,7 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
 	}
 
 }
